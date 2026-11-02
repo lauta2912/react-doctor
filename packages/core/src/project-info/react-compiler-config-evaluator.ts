@@ -1497,7 +1497,12 @@ const hasReactCompilerConfigInSentryWrapperArgument = (
   moduleSpecifier: string,
   exportName: string,
 ): boolean => {
-  if (moduleSpecifier !== "@sentry/nextjs" || exportName !== "withSentryConfig") return false;
+  if (
+    (moduleSpecifier !== "@sentry/nextjs" && moduleSpecifier !== "@sentry/nextjs/config") ||
+    exportName !== "withSentryConfig"
+  ) {
+    return false;
+  }
   const [configArgument] = callExpression.arguments;
   return Boolean(configArgument && analyzeConfigNode(configArgument, analysis, false));
 };

@@ -2713,6 +2713,13 @@ describe("discoverProject", () => {
       expected: true,
     },
     {
+      name: "config-entry-point",
+      config:
+        "import { withSentryConfig } from '@sentry/nextjs/config'; const nextConfig = { reactCompiler: true }; export default withSentryConfig(nextConfig, { org: 'x' });",
+      helper: null,
+      expected: true,
+    },
+    {
       name: "namespace-import",
       config:
         "import * as Sentry from '@sentry/nextjs'; const nextConfig = { reactCompiler: true }; export default Sentry.withSentryConfig(nextConfig, { org: 'x' });",
@@ -2759,7 +2766,7 @@ describe("discoverProject", () => {
         JSON.stringify({
           name: "@sentry/nextjs",
           type: "module",
-          exports: "./index.js",
+          exports: { ".": "./index.js", "./config": "./index.js" },
         }),
       );
       fs.writeFileSync(
